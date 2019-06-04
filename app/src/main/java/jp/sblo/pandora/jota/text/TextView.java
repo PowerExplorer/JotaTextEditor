@@ -38,7 +38,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
-import android.graphics.BaseCanvas;
+//import android.graphics.BaseCanvas;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -2971,12 +2971,12 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             c.drawText(mChars, start + mStart, end - start, x, y, p);
         }
 
-        @Override
-        public void drawText(BaseCanvas baseCanvas, int i, int i1, float v, float v1, Paint paint) {
-            if ( baseCanvas instanceof Canvas ){
-                drawText((Canvas) baseCanvas, i, i1, v, v1, paint);
-            }
-        }
+//        @Override
+//        public void drawText(BaseCanvas baseCanvas, int i, int i1, float v, float v1, Paint paint) {
+//            if ( baseCanvas instanceof Canvas ){
+//                drawText((Canvas) baseCanvas, i, i1, v, v1, paint);
+//            }
+//        }
 
         public float measureText(int start, int end, Paint p) {
             return p.measureText(mChars, start + mStart, end - start);
@@ -3024,12 +3024,12 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
         }
 
-        @Override
-        public void drawTextRun(BaseCanvas baseCanvas, int i, int i1, int i2, int i3, float v, float v1, boolean b, Paint paint) {
-            if ( baseCanvas instanceof Canvas ){
-                drawTextRun((Canvas) baseCanvas, i,i1,i2,i3,v,v1,b,paint);
-            }
-        }
+//        @Override
+//        public void drawTextRun(BaseCanvas baseCanvas, int i, int i1, int i2, int i3, float v, float v1, boolean b, Paint paint) {
+//            if ( baseCanvas instanceof Canvas ){
+//                drawTextRun((Canvas) baseCanvas, i,i1,i2,i3,v,v1,b,paint);
+//            }
+//        }
 
         @Override
         public float getTextRunAdvances(int start, int end, int contextStart, int contextEnd, boolean isRtl, float[] advances, int advancesIndex, Paint paint) {
@@ -8654,9 +8654,9 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         public static final int RIGHT = 2;
 
         public HandleView(CursorController controller, int pos) {
-            super(TextView.this.mContext);
+            super(TextView.this.getContext());
             mController = controller;
-            mContainer = new PopupWindow(TextView.this.mContext, null,
+            mContainer = new PopupWindow(TextView.this.getContext(), null,
                     com.android.internal.R.attr.textSelectHandleWindowStyle);
 //            mContainer.setSplitTouchEnabled(true);// Jota Text Editor
             mContainer.setClippingEnabled(false);
@@ -8781,8 +8781,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         }
 
         private void moveTo(int x, int y) {
-            mPositionX = x - TextView.this.mScrollX;
-            mPositionY = y - TextView.this.mScrollY;
+            mPositionX = x - TextView.this.getScrollX();
+            mPositionY = y - TextView.this.getScrollY();
             if (isPositionVisible()) {
                 int[] coords = null;
                 if (mContainer.isShowing()) {
@@ -8871,8 +8871,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
             final Rect bounds = sCursorControllerTempRect;
             bounds.left = (int) (mLayout.getPrimaryHorizontal(offset) - mHotspotX)
-                + TextView.this.mScrollX + mLineNumberWidth;			// Jota Text Editor
-            bounds.top = (bottom ? lineBottom : lineTop - mHeight) + TextView.this.mScrollY;
+                + TextView.this.getScrollX() + mLineNumberWidth;			// Jota Text Editor
+            bounds.top = (bottom ? lineBottom : lineTop - mHeight) + TextView.this.getScrollY();
 
             bounds.right = bounds.left + width;
             bounds.bottom = bounds.top + height;
