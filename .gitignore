@@ -12,3 +12,9 @@ dic3.txt
 */build
 **/obj
 /JotaPlus/src/main/libs
+/libs
+*.aar
+*.jar
+*.class
+*.dex
+/build/*

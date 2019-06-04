@@ -72,7 +72,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Main extends Activity implements JotaDocumentWatcher, ShortcutListener,
+public class Main extends StorageCheckActivity implements JotaDocumentWatcher, ShortcutListener,
         OnFileLoadListener {
     private static final String TAG = "JotaTextEditor";
     private static final int REQUESTCODE_OPEN = 0;
