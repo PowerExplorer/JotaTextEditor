@@ -55,6 +55,7 @@ public abstract class CharsetProber
     public static final int     ASCII_GT = 0x3E; // '>'
     public static final int     ASCII_SP = 0x20; // ' '
 
+    private boolean active = true;
     
     ////////////////////////////////////////////////////////////////
     // inner types
@@ -176,4 +177,12 @@ public abstract class CharsetProber
                 (c > ASCII_Z_CAPITAL && c < ASCII_A) ||
                 (c > ASCII_Z));
     }
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

@@ -8,18 +8,69 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
 
-    <application android:icon="@drawable/icon"
+    <application android:icon="@drawable/textpng"
 		android:name="jp.sblo.pandora.jota.JotaTextEditor"
         android:label="@string/app_name"
         android:allowBackup="true"
 		android:hardwareAccelerated="true"
         >
+
+
+		<activity 
+			android:name="net.gnu.texteditor.TextEditorActivity"
+			android:icon="@drawable/textpng"
+			android:label="Text Editor"
+			android:theme="@style/AppTheme"
+			android:launchMode="singleInstance"
+		>
+			<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.OPEN_DOCUMENT" />
+				<action android:name="android.intent.action.CREATE_DOCUMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="text/*"/>
+				<data android:mimeType="application/x-iml"/>
+				<data android:mimeType="application/x-pro"/>
+				<data android:mimeType="application/x-gradle"/>
+				<data android:mimeType="application/x-cfg"/>
+				<data android:mimeType="application/x-gitignore"/>
+				<data android:mimeType="application/x-sh"/>
+				<data android:mimeType="application/x-properties"/>
+				<data android:mimeType="application/x-pod"/>
+				<data android:mimeType="application/x-classpath"/>
+				<data android:mimeType="application/x-mk"/>
+				<data android:mimeType="application/x-md"/>
+				<data android:mimeType="application/javascript" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/xml" />
+            </intent-filter>
+
+            <intent-filter>
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="text/*" />
+            </intent-filter>
+
+			<!-- for SL4A -->
+			<intent-filter>
+				<action android:name="com.googlecode.android_scripting.action.EDIT_SCRIPT" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+
+        </activity>
+
         <activity android:name="jp.sblo.pandora.jota.Main"
                   android:label="@string/app_name"
 		          android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <intent-filter>

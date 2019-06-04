@@ -16,7 +16,6 @@
 
 package jp.sblo.pandora.jota.text;
 
-import jp.sblo.pandora.jota.R;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -28,6 +27,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.SectionIndexer;
+import jp.sblo.pandora.jota.*;
 
 /**
  * Helper class for AbsListView to draw and control the Fast Scroll thumb

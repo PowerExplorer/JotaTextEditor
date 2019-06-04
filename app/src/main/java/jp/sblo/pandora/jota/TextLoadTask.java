@@ -118,17 +118,17 @@ public     class TextLoadTask extends AsyncTask<String, Integer, SpannableString
                 return new SpannableStringBuilder("");
             }
 //            if ( USE_JUNIVERSALCHARDET ){
-                UniversalDetector detector;
-                if ( encode ==null || encode.length() == 0 ){
-                    try {
-                        detector = new UniversalDetector(null);
-                        detector.handleData(buff, 0, nread);
-                        detector.dataEnd();
-                        encode = detector.getDetectedCharset();
-                        detector.reset();
-                    } catch (Exception e1) {
-                    }
-                }
+			UniversalDetector detector;
+			if ( encode ==null || encode.length() == 0 ){
+				try {
+					detector = new UniversalDetector(null);
+					detector.handleData(buff, 0, nread);
+					detector.dataEnd();
+					encode = detector.getDetectedCharset();
+					detector.reset();
+				} catch (Exception e1) {
+				}
+			}
 //            }else{
 //                // Detect charset
 //                NativeUniversalDetector detector;
@@ -177,7 +177,7 @@ public     class TextLoadTask extends AsyncTask<String, Integer, SpannableString
                         }
                         break;
                     }
-               }
+				}
             }else{      // cr.length == 2 // we dont think in the case cr.length>2
                 for( int i=0;i<nread-2 ;i+=2 ){
                     if ( buff[i] == lf[0] && buff[i+1]==lf[1] ){
@@ -191,7 +191,7 @@ public     class TextLoadTask extends AsyncTask<String, Integer, SpannableString
                         }
                         break;
                     }
-               }
+				}
             }
 //            if ( encode != null ){
 //                Log.e( TAG , "CharSet="+encode+"Linebreak=" + new String[]{"CR","LF","CRLF"}[linebreak]);

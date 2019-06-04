@@ -56,7 +56,6 @@ public abstract class CharDistributionAnalysis
     private int         totalChars;
     protected int[]     charToFreqOrder; // set by subclasses
     protected float     typicalDistributionRatio; // set by subclasses
-    protected boolean   done; // set by subclasses and reset()
     
 
     ////////////////////////////////////////////////////////////////
@@ -95,7 +94,6 @@ public abstract class CharDistributionAnalysis
         }
         
         if (this.totalChars != this.freqChars) {
-			// patched according to original C source. Thanks OSTRA! 2012/09/23
             float r = this.freqChars / ((this.totalChars - this.freqChars) * this.typicalDistributionRatio);
             
             if (r < SURE_YES) {
@@ -108,7 +106,6 @@ public abstract class CharDistributionAnalysis
     
     public void reset()
     {
-        this.done = false;
         this.totalChars = 0;
         this.freqChars = 0;
     }

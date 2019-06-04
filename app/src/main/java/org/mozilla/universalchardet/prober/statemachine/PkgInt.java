@@ -83,7 +83,7 @@ public class PkgInt
         this.shiftMask = shiftMask;
         this.bitShift = bitShift;
         this.unitMask = unitMask;
-        this.data = data;
+        this.data = data.clone();
     }
     
     public static int pack16bits(int a, int b)

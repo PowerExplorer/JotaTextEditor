@@ -10,8 +10,9 @@ import android.view.*;
 import jp.sblo.pandora.jota.R;
 import android.*;
 import com.afollestad.materialdialogs.*;
+import android.support.v7.app.*;
 
-public class StorageCheckActivity extends Activity {
+public class StorageCheckActivity extends AppCompatActivity {
 	
 	protected static final int REQUEST_WRITE_EXTERNAL = 77;
 	protected static final int REQUEST_WRITE_MEDIA = 78;

@@ -15,6 +15,7 @@
 			android:focusable="true"
 			android:textSize="14sp"
 			android:layout_weight="1"
+			android:gravity="bottom"
 			android:hint="@string/button_replace"
 			android:textColorHint="#FF808080"
 		/>

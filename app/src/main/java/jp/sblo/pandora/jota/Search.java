@@ -24,8 +24,8 @@ public class Search
     OnSearchFinishedListener mListener;
 
     public static class Record {
-        int start;
-        int end;
+        public int start;
+        public int end;
     };
     public interface OnSearchFinishedListener {
         void onSearchFinished( ArrayList<Record> data );

@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+
+
+    <!-- Base application theme. Theme.AppCompat.Light.DarkActionBar-->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
+        <!--<item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+		<item name="actionMenuTextColor">@color/colorPrimary</item>-->
+		<!--<item name="android:actionButtonStyle">@style/myActionButtonStyle</item>-->
+		<!--<item name="actionButtonStyle">@style/myActionButtonStyle</item>-->
+    </style>
+	
+      
     <style name="MyEditText">
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>

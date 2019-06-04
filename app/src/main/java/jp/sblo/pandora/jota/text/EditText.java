@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import jp.sblo.pandora.jota.IS01FullScreen;
 import jp.sblo.pandora.jota.JotaTextEditor;
-import jp.sblo.pandora.jota.R;
 import android.content.Context;
 import android.text.Editable;
 import android.text.Spannable;
@@ -16,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import jp.sblo.pandora.jota.*;
 
 public class EditText extends TextView{
 
@@ -322,8 +322,8 @@ public class EditText extends TextView{
 
         Integer ss = mShortcuts.get(keycode);
 
-        if (ss!=null && ss != EditText.FUNCTION_NONE ) {
-            return doFunction( ss );
+        if (ss!=null && ss.intValue() != EditText.FUNCTION_NONE ) {
+            return doFunction( ss.intValue() );
         }
         return false;
     }
@@ -332,7 +332,7 @@ public class EditText extends TextView{
 
         Integer ss = mShortcuts.get(keycode);
 
-        if (ss!=null && ss != EditText.FUNCTION_NONE ) {
+        if (ss!=null && ss.intValue() != EditText.FUNCTION_NONE ) {
             return true;
         }
         return false;

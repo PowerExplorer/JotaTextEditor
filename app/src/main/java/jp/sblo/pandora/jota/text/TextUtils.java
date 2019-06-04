@@ -53,7 +53,7 @@ import android.text.TextPaint;
 import android.text.style.CharacterStyle;
 import android.util.Printer;
 
-import com.android.internal.R;
+//import com.android.internal.R;
 
 
 public class TextUtils {
@@ -943,7 +943,7 @@ public class TextUtils {
      * are out of range in <code>dest</code>.
      */
     public static void copySpansFrom(Spanned source, int start, int end,
-                                     Class kind,
+                                     Class<?> kind,
                                      Spannable dest, int destoff) {
         if (kind == null) {
             kind = Object.class;

@@ -15,6 +15,7 @@
 			android:singleLine="true"
 			android:focusable="true"
 			android:textSize="14sp"
+			android:gravity="bottom"
 			android:layout_weight="1"
 			android:layout_marginTop="0dip"
 			android:layout_marginBottom="0dip"

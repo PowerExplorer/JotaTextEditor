@@ -70,7 +70,7 @@ public abstract class SMModel
         this.classTable = classTable;
         this.classFactor = classFactor;
         this.stateTable = stateTable;
-        this.charLenTable = charLenTable;
+        this.charLenTable = charLenTable.clone();
         this.name = name;
     }
     

@@ -48,6 +48,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import android.util.Log;
 
 public class SettingsActivity extends PreferenceActivity implements OnPreferenceChangeListener,OnSharedPreferenceChangeListener {
 
@@ -79,7 +80,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
     private static final String KEY_CHARSET_OPEN            = "CHARSET_OPEN";
     private static final String KEY_CHARSET_SAVE            = "CHARSET_SAVE";
     private static final String KEY_LINEBREAK_SAVE          = "LINEBREAK_SAVE";
-    private static final String KEY_HIDETITLEBAR            = "HIDETITLEBAR";
+    public static final String KEY_HIDETITLEBAR            = "HIDETITLEBAR";
     private static final String KEY_HIDESOFTKEY_IS01        = "HIDESOFTKEY_IS01";
     private static final String KEY_VIEWER_MODE             = "VIEWER_MODE";
     private static final String KEY_USE_VOLUMEKEY           = "USE_VOLUMEKEY";
@@ -171,7 +172,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
     public static final String STARTUP_HISTORY  ="startup_history";
     public static final String STARTUP_LASTFILE ="startup_lastfile";
 
-    private static final String BACKUP_FILE     = Environment.getExternalStorageDirectory() + "/.jota/prefs/";
+	public static final String JOTA = "/.net.gnu.explorer";
+    private static final String BACKUP_FILE     = Environment.getExternalStorageDirectory() + JOTA + "/prefs/";
 
     private static int sLastVersion=0;
 
@@ -193,6 +195,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
     private Preference mPrefWrapWidthP;
     private Preference mPrefWrapWidthL;
     private ListPreference mPrefStartupAction;
+
+	private static final String TAG = "SettingsActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -226,13 +230,13 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                     }
                 }
 
-                if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled(this) ){      // donate
-                    final Preference pr = new Preference(this);
-                    pr.setTitle(R.string.label_donate);
-                    pr.setSummary(R.string.summary_donate);
-                    pr.setOnPreferenceClickListener(mProcDonate);
-                    mPs.addPreference(pr);
-                }
+//                if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled(this) ){      // donate
+//                    final Preference pr = new Preference(this);
+//                    pr.setTitle(R.string.label_donate);
+//                    pr.setSummary(R.string.summary_donate);
+//                    pr.setOnPreferenceClickListener(mProcDonate);
+//                    mPs.addPreference(pr);
+//                }
                 {
                     final Preference pr = new Preference(this);
                     pr.setTitle(R.string.menu_pref_search);
@@ -859,10 +863,10 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                     category.addPreference(pr);
                 }
                 {      // change log
-                    final Preference pr = new Preference(this);
-                    pr.setTitle(R.string.label_changelog);
-                    pr.setOnPreferenceClickListener(mProcChangeLog);
-                    category.addPreference(pr);
+//                    final Preference pr = new Preference(this);
+//                    pr.setTitle(R.string.label_changelog);
+//                    pr.setOnPreferenceClickListener(mProcChangeLog);
+//                    category.addPreference(pr);
                 }
                 {
                     final Preference pr = new Preference(this);
@@ -1302,19 +1306,19 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             return false;
         }
     };
-    private OnPreferenceClickListener mProcDonate = new OnPreferenceClickListener(){
-        public boolean onPreferenceClick(Preference preference) {
-            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
-            startActivity(intent);
-            return true;
-        }
-    };
-    private OnPreferenceClickListener mProcChangeLog = new OnPreferenceClickListener(){
-        public boolean onPreferenceClick(Preference preference) {
-            showChangeLog(SettingsActivity.this,true);
-            return true;
-        }
-    };
+//    private OnPreferenceClickListener mProcDonate = new OnPreferenceClickListener(){
+//        public boolean onPreferenceClick(Preference preference) {
+//            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
+//            startActivity(intent);
+//            return true;
+//        }
+//    };
+//    private OnPreferenceClickListener mProcChangeLog = new OnPreferenceClickListener(){
+//        public boolean onPreferenceClick(Preference preference) {
+//            showChangeLog(SettingsActivity.this,true);
+//            return true;
+//        }
+//    };
     private OnPreferenceClickListener mProcAbout = new OnPreferenceClickListener(){
         public boolean onPreferenceClick(Preference preference) {
             Intent intent = new Intent( SettingsActivity.this,AboutActivity.class);
@@ -1764,68 +1768,68 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 
 	public static class Settings {
-		boolean re;
-		boolean ignorecase;
-		Intent directintent;
-		String intentname;
-		Typeface fontface;
-		int fontsize;
-		String defaultdirectory;
-        boolean shortcutaltleft;
-        boolean shortcutaltright;
-        boolean shortcutctrl;
-        boolean shortcutctrlltn;
+		public boolean re;
+		public boolean ignorecase;
+		public Intent directintent;
+		public String intentname;
+		public Typeface fontface;
+		public int fontsize;
+		public String defaultdirectory;
+        public boolean shortcutaltleft;
+        public boolean shortcutaltright;
+        public boolean shortcutctrl;
+        public boolean shortcutctrlltn;
 //        boolean rememberlastfile;
-        boolean wordwrap;
-        String theme;
-        int backgroundcolor;
-        int textcolor;
-        int highlightcolor;
-        int underlinecolor;
-        boolean underline;
-        boolean createbackup;
-        HashMap<Integer,Integer> shortcuts;
-        String CharsetOpen;
-        String CharsetSave;
-        int LinebreakSave;
-        Intent directintent2;
-        String intentname2;
-        boolean useVolumeKey;
-        int WrapWidthP;
-        int WrapWidthL;
-        String WrapCharP;
-        String WrapCharL;
-        int TabWidth;
-        String TabChar;
-        String TrackballButton;
-        boolean showLineNumbers;
-        boolean autosave;
-        boolean autoIndent;
-        int lineSpace;
-        boolean showTab;
-        String actionShare;
+        public boolean wordwrap;
+        public String theme;
+        public int backgroundcolor;
+        public int textcolor;
+        public int highlightcolor;
+        public int underlinecolor;
+        public boolean underline;
+        public boolean createbackup;
+        public HashMap<Integer,Integer> shortcuts;
+        public String CharsetOpen;
+        public String CharsetSave;
+        public int LinebreakSave;
+        public Intent directintent2;
+        public String intentname2;
+        public boolean useVolumeKey;
+        public int WrapWidthP;
+        public int WrapWidthL;
+        public String WrapCharP;
+        public String WrapCharL;
+        public int TabWidth;
+        public String TabChar;
+        public String TrackballButton;
+        public boolean showLineNumbers;
+        public boolean autosave;
+        public boolean autoIndent;
+        public int lineSpace;
+        public boolean showTab;
+        public String actionShare;
 //        int donateCounter;
-        boolean specialkey_desirez;
-        boolean blinkCursor;
-        String wallpaperPortrait;
-        String wallpaperLandscape;
-        String wallpaperTransparency;
-        boolean showToolbar;
-        boolean forceScroll;
-        ArrayList<Integer> toolbars;
-        boolean toolbarBigButton;
-        boolean toolbarHideLandscape;
-        boolean ctrlPreIme;
-        String startupAction;
-        boolean suppressMessage;
+        public boolean specialkey_desirez;
+        public boolean blinkCursor;
+        public String wallpaperPortrait;
+        public String wallpaperLandscape;
+        public String wallpaperTransparency;
+        public boolean showToolbar;
+        public boolean forceScroll;
+        public ArrayList<Integer> toolbars;
+        public boolean toolbarBigButton;
+        public boolean toolbarHideLandscape;
+        public boolean ctrlPreIme;
+        public String startupAction;
+        public boolean suppressMessage;
 	}
 
 	public static class BootSettings {
-        boolean hideTitleBar;
-        boolean hideSoftkeyIS01;
-        boolean viewerMode;
-        boolean autoCapitalize;
-        String screenOrientation;
+        public boolean hideTitleBar;
+        public boolean hideSoftkeyIS01;
+        public boolean viewerMode;
+        public boolean autoCapitalize;
+        public String screenOrientation;
 	}
 
     private static Settings sSettings;
@@ -1880,8 +1884,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
             }
         } catch (URISyntaxException e) {
         }
-        ret.fontsize = Integer.parseInt( sp.getString( KEY_FONT_SIZE , "18") );
-        CharSequence font = sp.getString(KEY_FONT, "NORMAL");
+        ret.fontsize = Integer.parseInt( sp.getString( KEY_FONT_SIZE , "14") );
+        CharSequence font = sp.getString(KEY_FONT, "MONOSPACE");
         if ( "NORMAL".equals(font) ){
             ret.fontface = Typeface.DEFAULT;
         }else if ("MONOSPACE".equals(font)) {
@@ -1912,7 +1916,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
         ret.highlightcolor = sp.getInt(KEY_HIGHLIGHT_COLOR,0);
         ret.backgroundcolor = sp.getInt(KEY_BACKGROUND, 0);
         ret.underlinecolor =  sp.getInt(KEY_UNDERLINE_COLOR, 0);
-        ret.underline = sp.getBoolean(KEY_UNDERLINE, true);
+        ret.underline = sp.getBoolean(KEY_UNDERLINE, false);
         ret.createbackup = sp.getBoolean(KEY_CRETAE_BACKUP, true);
         ret.shortcuts = SettingsShortcutActivity.loadShortcuts(ctx);
         ret.CharsetOpen = sp.getString(KEY_CHARSET_OPEN, "");
@@ -1926,9 +1930,9 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
         ret.TabWidth =  sp.getInt(KEY_TAB_WIDTH, 4);
         ret.TabChar =  sp.getString(KEY_TAB_CHAR, DEFAULT_WRAP_WIDTH_CHAR);
         ret.TrackballButton = sp.getString(KEY_TRACKBALL_BUTTON, TB_CENTERING);
-        ret.showLineNumbers = sp.getBoolean( KEY_SHOW_LINENUMBERS, false);
+        ret.showLineNumbers = sp.getBoolean( KEY_SHOW_LINENUMBERS, true);
         ret.autosave = sp.getBoolean( KEY_AUTO_SAVE, false);
-        ret.autoIndent = sp.getBoolean( KEY_AUTO_INDENT, false);
+        ret.autoIndent = sp.getBoolean( KEY_AUTO_INDENT, true);
         ret.lineSpace = sp.getInt( KEY_LINE_SPACE , 0);
         ret.showTab = sp.getBoolean( KEY_SHOW_TAB, false);
         ret.actionShare = sp.getString(KEY_ACTION_SHARE, AS_INSERT);
@@ -1955,9 +1959,9 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
         BootSettings ret = new BootSettings();
 
         ret.hideTitleBar = sp.getBoolean(KEY_HIDETITLEBAR , false);
-        ret.hideSoftkeyIS01 = sp.getBoolean(KEY_HIDESOFTKEY_IS01 , false);
-        ret.viewerMode = sp.getBoolean(KEY_VIEWER_MODE, false);
-        ret.autoCapitalize = sp.getBoolean(KEY_AUTO_CAPITALIZE, false);
+        ret.hideSoftkeyIS01 = sp.getBoolean(KEY_HIDESOFTKEY_IS01 , true);
+        ret.viewerMode = sp.getBoolean(KEY_VIEWER_MODE, true);
+        ret.autoCapitalize = sp.getBoolean(KEY_AUTO_CAPITALIZE, true);
         ret.screenOrientation = sp.getString(KEY_ORIENTATION, ORI_AUTO);
         sBootSettings = ret;
         return ret;
@@ -1966,19 +1970,20 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 	public static boolean isVersionUp(Context ctx)
 	{
 		final SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ctx);
-		boolean ret = false;
+		boolean hasNew = false;
 		int lastversion = sp.getInt(KEY_LASTVERSION, 0 );
 		sLastVersion = lastversion;
 		int versioncode;
 		try {
 		    String pkgname = ctx.getApplicationInfo().packageName;
 			versioncode = ctx.getPackageManager().getPackageInfo(pkgname, 0).versionCode;
-			ret = (lastversion != versioncode);
-			if ( !ret ){
+			hasNew = (lastversion != versioncode);
+			Log.d(TAG, "sLastVersion " + sLastVersion + ", hasNew " + hasNew + ", versioncode " + versioncode);
+			if ( !hasNew ){
 			    sLastVersion = -1;
 			}
-
-			if ( ret ){
+			
+			if ( hasNew ){
 				Editor editor = sp.edit();
 				editor.putInt(KEY_LASTVERSION, versioncode );
 
@@ -1991,7 +1996,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 				}
                 if ( lastversion < 2 ){
                     editor.putString(KEY_FONT, "NORMAL");
-                    editor.putString(KEY_FONT_SIZE, "18");
+                    editor.putString(KEY_FONT_SIZE, "16");
                     editor.putString(KEY_DEFAULT_FOLDER, Environment.getExternalStorageDirectory().getPath());
 				}
                 if ( lastversion < 3 ){
@@ -2005,7 +2010,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                     editor.putInt(KEY_TEXT_COLOR, COLOR_DEFAULT);
                     editor.putInt(KEY_HIGHLIGHT_COLOR , getTextColorHighlight(ctx) );
                     editor.putInt( KEY_BACKGROUND , BACKGROUND_DEFAULT );
-                    editor.putBoolean(KEY_UNDERLINE, true);
+                    editor.putBoolean(KEY_UNDERLINE, false);
                     editor.putInt( KEY_UNDERLINE_COLOR, UNDERLINE_COLOR );
                 }
                 if ( lastversion < 5 ){
@@ -2022,8 +2027,8 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                     editor.putBoolean(KEY_HIDETITLEBAR, false);
                     editor.putBoolean(KEY_HIDESOFTKEY_IS01, false);
                 }
-                if ( lastversion < 9 ){
-                    editor.putBoolean(KEY_VIEWER_MODE, false);
+				if ( lastversion < 9 ){
+                    editor.putBoolean(KEY_VIEWER_MODE, true);
                     editor.putBoolean(KEY_SHORTCUT_CTRL_LTN, false);
                 }
                 if ( lastversion < 10 ){
@@ -2040,7 +2045,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
                     editor.putBoolean(KEY_SHOW_LINENUMBERS, false );
                 }
                 if ( lastversion < 15 ){
-                    editor.putBoolean(KEY_AUTO_INDENT, false );
+                    editor.putBoolean(KEY_AUTO_INDENT, true );
                     editor.putBoolean(KEY_AUTO_SAVE, false );
                     editor.putInt(KEY_LINE_SPACE, 0 );
                 }
@@ -2095,7 +2100,7 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
 
 		} catch (NameNotFoundException e) {
 		}
-		return ret;
+		return hasNew;
 	}
 
 	private static int getTextColorHighlight(Context ctx)
@@ -2228,109 +2233,109 @@ public class SettingsActivity extends PreferenceActivity implements OnPreference
         mPs.getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    public static void showChangeLog(final Activity context,boolean changelog)
-    {
-        int filename;
-        int title;
-        if ( changelog ){
-            filename = R.string.file_changelog;
-            title = R.string.label_changelog;
-        }else{
-            // welcome message
-            filename = R.string.file_welcome;
-            title = R.string.app_name;
-        }
-
-        boolean isJotaPlusInstalled = isJotaPlusInstalled(context);
-
-        String text="";
-        try{
-            boolean cuttop = changelog;
-            if ( cuttop ){
-                if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled ) {
-                    cuttop = false;
-                }
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(context.getString(filename))));
-            String line;
-            while( (line = br.readLine())!=null ){
-                if ( cuttop ){
-                    if ( line.startsWith("-----") ){
-                        cuttop = false;
-                    }
-                }else{
-                    text += line + '\n';
-                }
-            }
-            br.close();
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-        View view = context.getLayoutInflater().inflate(R.layout.history_view, null);
-
-        TextView msgText = (TextView)view.findViewById(R.id.message);
-        msgText.setText( text );
-
-        Button banner = (Button)view.findViewById(R.id.banner);
-        if ( !JotaTextEditor.sFroyo || isJotaPlusInstalled ){
-            banner.setVisibility(View.GONE);
-        }
-        banner.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
-//                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://sites.google.com/site/aquamarinepandora/jotaplus"));
-                try{
-                    context.startActivity(intent);
-                }
-                catch(Exception e){}
-            }
-        });
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-        .setView( view )
-        .setTitle( title )
-        .setPositiveButton(R.string.label_ok, null);
-
-        if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled(context) ){      // donate
-//        if ( changelog  /*&& (sSettings !=null && sSettings.donateCounter ==0)*/ ){
-            builder.setNegativeButton(R.string.label_donate, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
-                    context.startActivity(intent);
-                }
-            });
-        }
-        builder.show();
-    }
+//    public static void showChangeLog(final Activity context,boolean changelog)
+//    {
+//        int filename;
+//        int title;
+//        if ( changelog ){
+//            filename = R.string.file_changelog;
+//            title = R.string.label_changelog;
+//        }else{
+//            // welcome message
+//            filename = R.string.file_welcome;
+//            title = R.string.app_name;
+//        }
+//
+//        boolean isJotaPlusInstalled = isJotaPlusInstalled(context);
+//
+//        String text="";
+//        try{
+//            boolean cuttop = changelog;
+//            if ( cuttop ){
+//                if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled ) {
+//                    cuttop = false;
+//                }
+//            }
+//            BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(context.getString(filename))));
+//            String line;
+//            while( (line = br.readLine())!=null ){
+//                if ( cuttop ){
+//                    if ( line.startsWith("-----") ){
+//                        cuttop = false;
+//                    }
+//                }else{
+//                    text += line + '\n';
+//                }
+//            }
+//            br.close();
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//        }
+//
+//        View view = context.getLayoutInflater().inflate(R.layout.history_view, null);
+//
+//        TextView msgText = (TextView)view.findViewById(R.id.message);
+//        msgText.setText( text );
+//
+//        Button banner = (Button)view.findViewById(R.id.banner);
+//        if ( !JotaTextEditor.sFroyo || isJotaPlusInstalled ){
+//            banner.setVisibility(View.GONE);
+//        }
+//        banner.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
+////                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://sites.google.com/site/aquamarinepandora/jotaplus"));
+//                try{
+//                    context.startActivity(intent);
+//                }
+//                catch(Exception e){}
+//            }
+//        });
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+//        .setView( view )
+//        .setTitle( title )
+//        .setPositiveButton(R.string.label_ok, null);
+//
+//        if ( JotaTextEditor.sFroyo  && !isJotaPlusInstalled(context) ){      // donate
+////        if ( changelog  /*&& (sSettings !=null && sSettings.donateCounter ==0)*/ ){
+//            builder.setNegativeButton(R.string.label_donate, new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int which) {
+//                    Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse(URL_PLUS));
+//                    context.startActivity(intent);
+//                }
+//            });
+//        }
+//        builder.show();
+//    }
 
     public static void showWelcomeMessage(Activity context)
     {
-        if ( sLastVersion == -1 ){
-            // Do nothing
-        }else if (sLastVersion == 0 ){
-            // Welcome
-            showChangeLog(context,false);
-        }else{
-            // change log
-            showChangeLog(context,true);
-        }
+//        if ( sLastVersion == -1 ){
+//            // Do nothing
+//        }else if (sLastVersion == 0 ){
+//            // Welcome
+//            showChangeLog(context,false);
+//        }else{
+//            // change log
+//            showChangeLog(context,true);
+//        }
         sLastVersion = -1;
     }
 
-    public static boolean isJotaPlusInstalled(Context context)
-    {
-        PackageManager pm = context.getPackageManager();
-        try {
-            pm.getPackageInfo("jp.sblo.pandora.jota.plus", 0);
-            return true;
-        } catch (NameNotFoundException e) {
-        }
-        return false;
-    }
+//    public static boolean isJotaPlusInstalled(Context context)
+//    {
+//        PackageManager pm = context.getPackageManager();
+//        try {
+//            pm.getPackageInfo("jp.sblo.pandora.jota.plus", 0);
+//            return true;
+//        } catch (NameNotFoundException e) {
+//        }
+//        return false;
+//    }
 
 
 }

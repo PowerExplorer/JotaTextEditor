@@ -42,11 +42,7 @@ import java.nio.ByteBuffer;
 import org.mozilla.universalchardet.Constants;
 
 
-public class Latin1Prober extends CharsetProber
-{
-    ////////////////////////////////////////////////////////////////
-    // constants
-    ////////////////////////////////////////////////////////////////
+public class Latin1Prober extends CharsetProber {
     public static final byte UDF = 0;
     public static final byte OTH = 1;
     public static final byte ASC = 2;
@@ -59,110 +55,6 @@ public class Latin1Prober extends CharsetProber
     public static final int FREQ_CAT_NUM = 4;
     
 
-    ////////////////////////////////////////////////////////////////
-    // fields
-    ////////////////////////////////////////////////////////////////
-    private ProbingState    state;
-    private byte            lastCharClass;
-    private int[]           freqCounter;
-    
-
-    ////////////////////////////////////////////////////////////////
-    // methods
-    ////////////////////////////////////////////////////////////////
-    public Latin1Prober()
-    {
-        super();
-        
-        this.freqCounter = new int[FREQ_CAT_NUM];
-        
-        reset();
-    }
-
-    @Override
-    public String getCharSetName()
-    {
-        return Constants.CHARSET_WINDOWS_1252;
-    }
-
-    @Override
-    public float getConfidence()
-    {
-        if (this.state == ProbingState.NOT_ME) {
-            return 0.01f;
-        }
-        
-        float confidence;
-        int total = 0;
-        for (int i=0; i<this.freqCounter.length; ++i) {
-            total += this.freqCounter[i];
-        }
-        
-        if (total <= 0) {
-            confidence = 0.0f;
-        } else {
-            confidence = this.freqCounter[3] * 1.0f / total;
-            confidence -= this.freqCounter[1] * 20.0f / total;
-        }
-        
-        if (confidence < 0.0f) {
-            confidence = 0.0f;
-        }
-        
-        // lower the confidence of latin1 so that other more accurate detector 
-        // can take priority.
-        confidence *= 0.50f;
-        
-        return confidence;
-    }
-
-    @Override
-    public ProbingState getState()
-    {
-        return this.state;
-    }
-
-    @Override
-    public ProbingState handleData(byte[] buf, int offset, int length)
-    {
-        ByteBuffer newBufTmp = filterWithEnglishLetters(buf, offset, length);
-
-        byte charClass;
-        byte freq;
-        
-        byte[] newBuf = newBufTmp.array();
-        int newBufLen = newBufTmp.position();
-
-        for (int i=0; i<newBufLen; ++i) {
-            int c = newBuf[i] & 0xFF;
-            charClass = latin1CharToClass[c];
-            freq = latin1ClassModel[this.lastCharClass * CLASS_NUM + charClass];
-            if (freq == 0) {
-                this.state = ProbingState.NOT_ME;
-                break;
-            }
-            ++this.freqCounter[freq];
-            this.lastCharClass = charClass;
-        }
-
-        return this.state;
-    }
-
-    @Override
-    public void reset()
-    {
-        this.state = ProbingState.DETECTING;
-        this.lastCharClass = OTH;
-        for (int i=0; i<this.freqCounter.length; ++i) {
-            this.freqCounter[i] = 0;
-        }
-    }
-
-    @Override
-    public void setOption()
-    {}
-
-    
     ////////////////////////////////////////////////////////////////
     // constants continued
     ////////////////////////////////////////////////////////////////
@@ -212,4 +104,96 @@ public class Latin1Prober extends CharsetProber
         /*ASV*/  0,  3,  1,  3,  1,  1,  1,  3, 
         /*ASO*/  0,  3,  1,  3,  1,  1,  3,  3,
     };
+    
+	private ProbingState state;
+	private byte lastCharClass;
+	private int[] freqCounter;
+
+
+	public Latin1Prober() {
+		super();
+		this.freqCounter = new int[FREQ_CAT_NUM];
+		reset();
+	}
+
+	@Override
+	public String getCharSetName() {
+		return Constants.CHARSET_WINDOWS_1252;
+	}
+
+	@Override
+	public float getConfidence() {
+		if (this.state == ProbingState.NOT_ME) {
+			return 0.01f;
+		}
+
+		float confidence;
+		int total = 0;
+		for (int i = 0; i < this.freqCounter.length; ++i) {
+			total += this.freqCounter[i];
+		}
+
+		if (total <= 0) {
+			confidence = 0.0f;
+		} else {
+			confidence = this.freqCounter[3] * 1.0f / total;
+			confidence -= this.freqCounter[1] * 20.0f / total;
+		}
+
+		if (confidence < 0.0f) {
+			confidence = 0.0f;
+		}
+
+		// lower the confidence of latin1 so that other more accurate detector
+		// can take priority.
+		confidence *= 0.50f;
+
+		return confidence;
+	}
+
+	@Override
+	public ProbingState getState() {
+		return this.state;
+	}
+
+	@Override
+	public ProbingState handleData(byte[] buf, int offset, int length) {
+		ByteBuffer newBufTmp = filterWithEnglishLetters(buf, offset, length);
+
+		byte charClass;
+		byte freq;
+
+		byte[] newBuf = newBufTmp.array();
+		int newBufLen = newBufTmp.position();
+
+		for (int i = 0; i < newBufLen; ++i) {
+			int c = newBuf[i] & 0xFF;
+			charClass = latin1CharToClass[c];
+			freq = latin1ClassModel[this.lastCharClass * CLASS_NUM + charClass];
+			if (freq == 0) {
+				this.state = ProbingState.NOT_ME;
+				break;
+			}
+			++this.freqCounter[freq];
+			this.lastCharClass = charClass;
+		}
+
+		return this.state;
+	}
+
+	@Override
+	public void reset() {
+		this.state = ProbingState.DETECTING;
+		this.lastCharClass = OTH;
+		for (int i = 0; i < this.freqCounter.length; ++i) {
+			this.freqCounter[i] = 0;
+		}
+	}
+
+	@Override
+	public void setOption() {
+	}
+
+    
+
 }

@@ -18,7 +18,6 @@ package jp.sblo.pandora.jota.text;
 
 import java.lang.reflect.Array;
 
-//import android.graphics.BaseCanvas;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
@@ -1051,16 +1050,12 @@ implements CharSequence, GetChars, Spannable, Editable, Appendable,
         System.out.print("\n");
     }
 */
-//    public void drawText(BaseCanvas c, int start, int end, float x, float y, Paint p) {
-//        if ( c instanceof Canvas ){
-//            drawText((Canvas) c, start, end,x, y, p);
-//        }
-//    }
 
     /**
      * Don't call this yourself -- exists for Canvas to use internally.
      * {@hide}
      */
+    @Override
     public void drawText(Canvas c, int start, int end,
                          float x, float y, Paint p) {
         checkRange("drawText", start, end);
@@ -1078,16 +1073,10 @@ implements CharSequence, GetChars, Spannable, Editable, Appendable,
 //        }
     }
 
+    @Override
     public void drawTextRun(Canvas c, int start, int end, int contextStart, int contextEnd, float x, float y, boolean isRtl, Paint p) {
 
     }
-
-//    @Override
-//    public void drawTextRun(BaseCanvas baseCanvas, int i, int i1, int i2, int i3, float v, float v1, boolean b, Paint paint) {
-//        if ( baseCanvas instanceof Canvas ){
-//            drawTextRun((Canvas) baseCanvas, i,i1,i2,i3,v,v1,b,paint);
-//        }
-//    }
 
     /**
      * Don't call this yourself -- exists for Paint to use internally.

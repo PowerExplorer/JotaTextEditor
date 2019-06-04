@@ -20,7 +20,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.widget.Toast;
 
-public     class TextSaveTask extends AsyncTask<CharSequence, Integer, String>{
+public class TextSaveTask extends AsyncTask<CharSequence, Integer, String>{
 
     Runnable mPreProc=null;
     Runnable mPostProc=null;

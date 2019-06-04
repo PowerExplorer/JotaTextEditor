@@ -37,7 +37,15 @@
 
 package org.mozilla.universalchardet;
 
-public interface CharsetListener
-{
-    public void report(String charset);
+/**
+ * Listener to be notified when Charset is detected.
+ *
+ */
+public interface CharsetListener {
+	
+	/**
+	 * Notifies a charset is detected
+	 * @param charset The charset being detected
+	 */
+	void report(String charset);
 }

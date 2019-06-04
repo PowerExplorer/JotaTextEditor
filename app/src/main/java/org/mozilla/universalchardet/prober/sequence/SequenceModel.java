@@ -60,8 +60,8 @@ public abstract class SequenceModel
             boolean keepEnglishLetter,
             String charsetName)
     {
-        this.charToOrderMap = charToOrderMap;
-        this.precedenceMatrix = precedenceMatrix;
+        this.charToOrderMap = charToOrderMap.clone();
+        this.precedenceMatrix = precedenceMatrix.clone();
         this.typicalPositiveRatio = typicalPositiveRatio;
         this.keepEnglishLetter = keepEnglishLetter;
         this.charsetName = charsetName;

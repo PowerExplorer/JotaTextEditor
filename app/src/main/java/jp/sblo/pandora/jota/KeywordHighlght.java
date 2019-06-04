@@ -21,11 +21,12 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.text.Spannable;
 import android.text.TextUtils;
+import java.io.*;
 
 public class KeywordHighlght {
 
-    private static final String PATH     = Environment.getExternalStorageDirectory() + "/.jota/keyword/";
-    private static final String USERPATH     = Environment.getExternalStorageDirectory() + "/.jota/keyword/user/";
+    private static final String PATH     = Environment.getExternalStorageDirectory() + SettingsActivity.JOTA + "/keyword/";
+    private static final String USERPATH     = Environment.getExternalStorageDirectory() + SettingsActivity.JOTA + "/keyword/user/";
     private static final String EXT      = "conf";
     private static final String ASSET_PATH     = "keyword";
     private static final String COLOR_PATH     = "colorsetting."+EXT;
@@ -155,7 +156,7 @@ public class KeywordHighlght {
 
                     try{
                         int color = Integer.parseInt(body, 16);
-                        sColorMap.put(head , color );
+                        sColorMap.put(head , Integer.valueOf(color) );
                     }
                     catch(Exception e){}
                 }
@@ -242,7 +243,7 @@ public class KeywordHighlght {
 
                     Integer color = sColorMap.get(head);
                     if ( color!=null ){
-                        addKeyword( body , color );
+                        addKeyword( body , color.intValue() );
                     }
                 }
             }
@@ -263,18 +264,18 @@ public class KeywordHighlght {
         return true;
     }
 
-    static public void extractFromAssets( Context context)
+    static public void extractFromAssets( final Context context)
     {
-        AssetManager am = context.getAssets();
-        byte[] buf = new byte[4096];
+        final AssetManager am = context.getAssets();
+        final byte[] buf = new byte[4096];
 
         try {
             // create direcotry
             new File(USERPATH).mkdirs();
 
             // remove all files except directory..
-            File dir = new File(PATH);
-            File[] files = dir.listFiles();
+            final File dir = new File(PATH);
+            final File[] files = dir.listFiles();
             if ( files != null ){
                 for( File f : files ){
                     if ( f.isFile() ){
@@ -283,20 +284,29 @@ public class KeywordHighlght {
                 }
             }
             // extarct files from assets.
-            String[] list = am.list(ASSET_PATH);
+            final String[] list = am.list(ASSET_PATH);
             for( String filename : list ){
-                File ofile = new File(PATH  + filename);
-                InputStream in = am.open(ASSET_PATH + "/"+ filename);
-                OutputStream out = new FileOutputStream(ofile);
+                final File ofile = new File(PATH  + filename);
+                InputStream in = null;
+                OutputStream out = null;
                 try{
+					in = new BufferedInputStream(am.open(ASSET_PATH + "/"+ filename));
+					out = new BufferedOutputStream(new FileOutputStream(ofile));
                     int len;
                     while( (len = in.read(buf))>0 ){
                         out.write(buf, 0, len);
                     }
-                }
-                catch(Exception e){}
-                in.close();
-                out.close();
+                } catch(Exception e) {
+				} finally {
+					if (in != null) {
+						in.close();
+					}
+					if (out != null) {
+						out.flush();
+						out.close();
+					}
+				}
+                
             }
         } catch (IOException e) {
             e.printStackTrace();

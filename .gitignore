@@ -18,3 +18,5 @@ dic3.txt
 *.class
 *.dex
 /build/*
+*.7z
+*.zip

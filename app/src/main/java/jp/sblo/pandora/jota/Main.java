@@ -1,4 +1,3 @@
-
 package jp.sblo.pandora.jota;
 
 import java.io.File;
@@ -72,7 +71,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
-public class Main extends StorageCheckActivity implements JotaDocumentWatcher, ShortcutListener,
+public class Main extends Activity implements JotaDocumentWatcher, ShortcutListener,
         OnFileLoadListener {
     private static final String TAG = "JotaTextEditor";
     private static final int REQUESTCODE_OPEN = 0;
@@ -1041,11 +1040,7 @@ public class Main extends StorageCheckActivity implements JotaDocumentWatcher, S
         }
 
         menuitem = menu.findItem(R.id.menu_file_shortcut);
-        if (  Build.VERSION.SDK_INT <= 25 ) {
-            menuitem.setEnabled(mInstanceState.filename != null);
-        }else{
-            menuitem.setVisible(false);
-        }
+        menuitem.setEnabled(mInstanceState.filename != null);
 
 //        menuitem = menu.findItem(R.id.menu_help_donate);
 //        menuitem.setVisible( mSettings.donateCounter == 0 );
@@ -2437,6 +2432,8 @@ public class Main extends StorageCheckActivity implements JotaDocumentWatcher, S
         mEdtSearchWord.setDontUseSoftkeyWithHardkey( mSettings.specialkey_desirez );
         mEdtReplaceWord.setDontUseSoftkeyWithHardkey( mSettings.specialkey_desirez );
         editor.enableBlinkCursor(mSettings.blinkCursor);
+        mEdtSearchWord.enableBlinkCursor(mSettings.blinkCursor);
+        mEdtReplaceWord.enableBlinkCursor(mSettings.blinkCursor);
         boolean toolbarVisible = mSettings.showToolbar&&(!landscape || !mSettings.toolbarHideLandscape);
         mToolbarBase.setVisibility(toolbarVisible?View.VISIBLE:View.GONE);
         editor.setForceScroll(mSettings.forceScroll);
@@ -2476,7 +2473,7 @@ public class Main extends StorageCheckActivity implements JotaDocumentWatcher, S
             applySetting();
         }
         if (mBootSettings.hideSoftkeyIS01) {
-            IS01FullScreen.setFullScreenOnIS01();
+            IS01FullScreen.setFullScreenOnIS01();//this
         }
     }
 
@@ -2505,7 +2502,7 @@ public class Main extends StorageCheckActivity implements JotaDocumentWatcher, S
         public void onClick(View v) {
 
             Integer function = (Integer)v.getTag();
-            switch( function ){
+            switch( function.intValue() ){
                 case jp.sblo.pandora.jota.text.TextView.FUNCTION_UNDO:
                 case jp.sblo.pandora.jota.text.TextView.FUNCTION_COPY:
                 case jp.sblo.pandora.jota.text.TextView.FUNCTION_CUT:
@@ -2570,7 +2567,7 @@ public class Main extends StorageCheckActivity implements JotaDocumentWatcher, S
                 button.setBackgroundResource( R.drawable.btn_default_small);
             }
             LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
-            button.setText(getToolbarLabel(function));
+            button.setText(getToolbarLabel(function.intValue()));
             button.setTextColor(Color.BLACK);
             button.setTag(function);
             button.setOnClickListener(mOnClickToolbar);

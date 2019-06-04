@@ -11,10 +11,10 @@ public class WordCounter {
 
     public static class Result
     {
-        int words;
-        int charactrers;
-        int lines;
-        int logicallines;
+        public int words;
+        public int charactrers;
+        public int lines;
+        public int logicallines;
     }
 
     public static int countPatterns( String pat , CharSequence text )

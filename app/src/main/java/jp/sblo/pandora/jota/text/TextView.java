@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 import jp.sblo.pandora.jota.JotaTextEditor;
 import jp.sblo.pandora.jota.KeywordHighlght;
-import jp.sblo.pandora.jota.R;
 import jp.sblo.pandora.jota.SettingsActivity;
 import jp.sblo.pandora.jota.text.UndoBuffer.TextChange;
 import jp.sblo.pandora.jota.text.style.ForegroundColorSpan;
@@ -38,7 +37,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
-//import android.graphics.BaseCanvas;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -113,6 +111,7 @@ import android.widget.Toast;
 import android.widget.RemoteViews.RemoteView;
 
 import com.android.internal.util.FastMath;
+import jp.sblo.pandora.jota.*;
 
 /**
  * Displays text to the user and optionally allows them to edit it.  A TextView
@@ -369,8 +368,9 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
 		// Jota Text Editor
         mLineNumberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mLineNumberPaint.setTextSize(10);
-        mLineNumberPaint.setTypeface(Typeface.MONOSPACE);
+        mLineNumberPaint.setTextSize(36);
+        //mLineNumberPaint.setTypeface(Typeface.MONOSPACE);
+		//mLineNumberPaint.setTextAlign(Paint.Align.RIGHT);
         mLineNumberPaint.setStrokeWidth(1);
 
         // Jota Text Editor
@@ -2971,13 +2971,6 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             c.drawText(mChars, start + mStart, end - start, x, y, p);
         }
 
-//        @Override
-//        public void drawText(BaseCanvas baseCanvas, int i, int i1, float v, float v1, Paint paint) {
-//            if ( baseCanvas instanceof Canvas ){
-//                drawText((Canvas) baseCanvas, i, i1, v, v1, paint);
-//            }
-//        }
-
         public float measureText(int start, int end, Paint p) {
             return p.measureText(mChars, start + mStart, end - start);
         }
@@ -3019,18 +3012,10 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             return p.getTextRunCursor(mChars, contextStart + mStart,
                     contextCount, flags, offset + mStart, cursorOpt);
         }
-
+        @Override
         public void drawTextRun(Canvas c, int start, int end, int contextStart, int contextEnd, float x, float y, boolean isRtl, Paint p) {
 
         }
-
-//        @Override
-//        public void drawTextRun(BaseCanvas baseCanvas, int i, int i1, int i2, int i3, float v, float v1, boolean b, Paint paint) {
-//            if ( baseCanvas instanceof Canvas ){
-//                drawTextRun((Canvas) baseCanvas, i,i1,i2,i3,v,v1,b,paint);
-//            }
-//        }
-
         @Override
         public float getTextRunAdvances(int start, int end, int contextStart, int contextEnd, boolean isRtl, float[] advances, int advancesIndex, Paint paint) {
             return 0;
@@ -5585,7 +5570,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         }
         // Jota Text Editor
         if ( mShowLineNumber ){
-            mLineNumberWidth = (int)mLineNumberPaint.measureText("888888|");
+            mLineNumberWidth = (int)mLineNumberPaint.measureText("88888|");
         }else{
             mLineNumberWidth = 0;
         }
@@ -6177,27 +6162,27 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         return offset;
     }
 
-//    @Override
-//    public void debug(int depth) {
-//        super.debug(depth);
-//
-//        String output = debugIndent(depth);
-//        output += "frame={" + mLeft + ", " + mTop + ", " + mRight
-//                + ", " + mBottom + "} scroll={" + mScrollX + ", " + mScrollY
-//                + "} ";
-//
-//        if (mText != null) {
-//
-//            output += "mText=\"" + mText + "\" ";
-//            if (mLayout != null) {
-//                output += "mLayout width=" + mLayout.getWidth()
-//                        + " height=" + mLayout.getHeight();
-//            }
-//        } else {
-//            output += "mText=NULL";
-//        }
-//        Log.d(VIEW_LOG_TAG, output);
-//    }
+    @Override
+    public void debug(int depth) {
+        super.debug(depth);
+
+        String output = debugIndent(depth);
+        output += "frame={" + mLeft + ", " + mTop + ", " + mRight
+                + ", " + mBottom + "} scroll={" + mScrollX + ", " + mScrollY
+                + "} ";
+
+        if (mText != null) {
+
+            output += "mText=\"" + mText + "\" ";
+            if (mLayout != null) {
+                output += "mLayout width=" + mLayout.getWidth()
+                        + " height=" + mLayout.getHeight();
+            }
+        } else {
+            output += "mText=NULL";
+        }
+        Log.d(VIEW_LOG_TAG, output);
+    }
 
     /**
      * Convenience for {@link Selection#getSelectionStart}.
@@ -8654,9 +8639,9 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         public static final int RIGHT = 2;
 
         public HandleView(CursorController controller, int pos) {
-            super(TextView.this.getContext());
+            super(TextView.super.mContext);
             mController = controller;
-            mContainer = new PopupWindow(TextView.this.getContext(), null,
+            mContainer = new PopupWindow(TextView.super.mContext, null,
                     com.android.internal.R.attr.textSelectHandleWindowStyle);
 //            mContainer.setSplitTouchEnabled(true);// Jota Text Editor
             mContainer.setClippingEnabled(false);
@@ -8781,8 +8766,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
         }
 
         private void moveTo(int x, int y) {
-            mPositionX = x - TextView.this.getScrollX();
-            mPositionY = y - TextView.this.getScrollY();
+            mPositionX = x - TextView.super.mScrollX;
+            mPositionY = y - TextView.super.mScrollY;
             if (isPositionVisible()) {
                 int[] coords = null;
                 if (mContainer.isShowing()) {
@@ -8871,8 +8856,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
             final Rect bounds = sCursorControllerTempRect;
             bounds.left = (int) (mLayout.getPrimaryHorizontal(offset) - mHotspotX)
-                + TextView.this.getScrollX() + mLineNumberWidth;			// Jota Text Editor
-            bounds.top = (bottom ? lineBottom : lineTop - mHeight) + TextView.this.getScrollY();
+                + TextView.super.mScrollX + mLineNumberWidth;			// Jota Text Editor
+            bounds.top = (bottom ? lineBottom : lineTop - mHeight) + TextView.super.mScrollY;
 
             bounds.right = bounds.left + width;
             bounds.bottom = bounds.top + height;
