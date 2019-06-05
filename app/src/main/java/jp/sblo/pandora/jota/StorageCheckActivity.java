@@ -23,6 +23,7 @@ public class StorageCheckActivity extends AppCompatActivity {
 	};
 	
     protected boolean checkStorage = true;
+	private MaterialDialog materialDialog;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class StorageCheckActivity extends AppCompatActivity {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example, if the request has been denied previously.
-            final MaterialDialog materialDialog = showBasicDialog(this,
+            materialDialog = showBasicDialog(this,
 																						new String[]{getString(R.string.granttext),
 																							getString(R.string.grantper),
 																							getString(R.string.grant),
@@ -107,4 +108,14 @@ public class StorageCheckActivity extends AppCompatActivity {
         }
         return a.build();
     }
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (materialDialog != null) {
+			materialDialog.dismiss();
+			materialDialog = null;
+		}
+	}
+	
 }
