@@ -48,29 +48,29 @@ public class StorageCheckActivity extends AppCompatActivity {
             // and the user would benefit from additional context for the use of the permission.
             // For example, if the request has been denied previously.
             materialDialog = showBasicDialog(this,
-																						new String[]{getString(R.string.granttext),
-																							getString(R.string.grantper),
-																							getString(R.string.grant),
-																							getString(R.string.cancel),
-																							null});
+											 new String[]{getString(R.string.granttext),
+												 getString(R.string.grantper),
+												 getString(R.string.grant),
+												 getString(R.string.cancel),
+												 null});
             materialDialog.getActionButton(DialogAction.POSITIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						ActivityCompat.requestPermissions(StorageCheckActivity.this, 
-							new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 
-							REQUEST_WRITE_EXTERNAL);
+														  PERMISSIONS_STORAGE, 
+														  REQUEST_WRITE_EXTERNAL);
 						materialDialog.dismiss();
 					}
 				});
             materialDialog.getActionButton(DialogAction.NEGATIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
+						materialDialog.dismiss();
 						finish();
 					}
 				});
             materialDialog.setCancelable(false);
             materialDialog.show();
-
         } else {
             // Contact permissions have not been granted yet. Request them directly.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL);

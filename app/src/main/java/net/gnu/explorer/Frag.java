@@ -22,8 +22,8 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.DialogAction;
+//import com.afollestad.materialdialogs.MaterialDialog;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public abstract class Frag extends Fragment implements Cloneable, Serializable {
 	public void onSaveInstanceState(final Bundle outState) {
 		//Log.d(TAG, "onSaveInstanceState" + path + ", " + outState);
 		super.onSaveInstanceState(outState);
-		outState.putString(Colour.EXTRA_ABSOLUTE_PATH, currentPathTitle);
+		outState.putString(Constants.EXTRA_ABSOLUTE_PATH, currentPathTitle);
 		outState.putString("title", title);
 	}
 
@@ -126,11 +126,11 @@ public abstract class Frag extends Fragment implements Cloneable, Serializable {
 		final Bundle args = getArguments();
 		if ((currentPathTitle == null || currentPathTitle.length() == 0) && args != null) {
 			title = args.getString("title");
-			currentPathTitle = args.getString(Colour.EXTRA_ABSOLUTE_PATH);
+			currentPathTitle = args.getString(Constants.EXTRA_ABSOLUTE_PATH);
 		}
 		if (savedInstanceState != null) {
 			title = savedInstanceState.getString("title");
-			currentPathTitle = savedInstanceState.getString(Colour.EXTRA_ABSOLUTE_PATH);
+			currentPathTitle = savedInstanceState.getString(Constants.EXTRA_ABSOLUTE_PATH);
 		}
         
 	}

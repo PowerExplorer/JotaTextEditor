@@ -2474,6 +2474,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
+			Log.d(TAG, "SavedState.writeToParcel " + out + ", flags " + flags);
             super.writeToParcel(out, flags);
             out.writeInt(selStart);
             out.writeInt(selEnd);
@@ -2516,6 +2517,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
         private SavedState(Parcel in) {
             super(in);
+            Log.d(TAG, "SavedState " + in);
             selStart = in.readInt();
             selEnd = in.readInt();
             frozenWithFocus = (in.readInt() != 0);
@@ -2533,7 +2535,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
+        Log.d(TAG, "SavedState.onSaveInstanceState ");
+		Parcelable superState = super.onSaveInstanceState();
 
         // Save state if we are forced to
         boolean save = mFreezesText;
@@ -2593,7 +2596,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState)) {
+        Log.d(TAG, "SavedState.onRestoreInstanceState ");
+		if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
         }

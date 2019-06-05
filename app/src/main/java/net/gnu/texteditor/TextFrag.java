@@ -2596,12 +2596,12 @@ OnFileLoadListener {
         if ( TextUtils.isEmpty(wallpaper) ){
 			if (SettingsActivity.THEME_DEFAULT.equals(mSettings.theme)) {
                 //editor.setBackgroundResource(R.drawable.textfield_default);
-				editor.setBackgroundColor(Colour.BASE_BACKGROUND);
-				editor.setTextColor(Colour.TEXT_COLOR);
+				editor.setBackgroundColor(Constants.BASE_BACKGROUND);
+				editor.setTextColor(Constants.TEXT_COLOR);
             } else if (SettingsActivity.THEME_BLACK.equals(mSettings.theme)) {
                 //editor.setBackgroundResource(R.drawable.textfield_black);
-				editor.setBackgroundColor(Colour.BASE_BACKGROUND_DARK);
-				editor.setTextColor(Colour.TEXT_COLOR_LIGHT);
+				editor.setBackgroundColor(Constants.BASE_BACKGROUND_DARK);
+				editor.setTextColor(Constants.TEXT_COLOR_LIGHT);
             }
             mWallpaper.setVisibility(View.GONE);
             mTransparency.setVisibility(View.GONE);
@@ -2804,8 +2804,8 @@ OnFileLoadListener {
     {
         mToolbar.removeAllViews();
 		if (!(fragActivity instanceof TextEditorActivity)) {
-			mToolbarBase.setBackgroundColor(Colour.BASE_BACKGROUND);
-			mToolbar.setBackgroundColor(Colour.BASE_BACKGROUND);
+			mToolbarBase.setBackgroundColor(Constants.BASE_BACKGROUND);
+			mToolbar.setBackgroundColor(Constants.BASE_BACKGROUND);
 			mMenuButton.setBackgroundResource(R.drawable.ripple);
 		} else {
 			//activity.getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.textfield_default));
@@ -2833,7 +2833,7 @@ OnFileLoadListener {
 			button.setMinWidth(72 * density);
 			iv = new ImageView(fragActivity);
 			iv.setBackgroundResource(R.drawable.ripple);
-			iv.setColorFilter(Colour.TEXT_COLOR, PorterDuff.Mode.SRC_IN);
+			iv.setColorFilter(Constants.TEXT_COLOR, PorterDuff.Mode.SRC_IN);
 			
 			if (func == jp.sblo.pandora.jota.text.TextView.FUNCTION_SELECT_ALL) {//}"Select All".equals(toolname)) {
 					iv.setImageResource(R.drawable.ic_select_all_white_36dp);
@@ -2861,7 +2861,7 @@ OnFileLoadListener {
 					button = null;
 				} else {
 					button.setText(getToolbarLabel(function));
-					button.setTextColor(Colour.TEXT_COLOR);
+					button.setTextColor(Constants.TEXT_COLOR);
 					iv = null;
 				}
 //			} else {

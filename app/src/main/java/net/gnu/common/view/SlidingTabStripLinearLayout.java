@@ -75,7 +75,7 @@ class SlidingTabStripLinearLayout extends LinearLayout {
 
         mDefaultTabColorizer = new SimpleTabColorizer();
 		mDefaultTabColorizer.setIndicatorColors(DEFAULT_SELECTED_INDICATOR_COLOR);
-        mDefaultTabColorizer.setDividerColors(setColorAlpha(Colour.DIVIDER_COLOR, DEFAULT_DIVIDER_COLOR_ALPHA));//ExplorerActivity.DIVIDER_COLOR;//themeForegroundColor //DEFAULT_DIVIDER_COLOR_ALPHA
+        mDefaultTabColorizer.setDividerColors(setColorAlpha(Constants.DIVIDER_COLOR, DEFAULT_DIVIDER_COLOR_ALPHA));//ExplorerActivity.DIVIDER_COLOR;//themeForegroundColor //DEFAULT_DIVIDER_COLOR_ALPHA
 
         final float density = getResources().getDisplayMetrics().density;
 
