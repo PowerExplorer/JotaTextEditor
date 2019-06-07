@@ -96,7 +96,7 @@ OnFileLoadListener {
     private static final String EXTRA_SCRIPT_PATH = "com.googlecode.android_scripting.extra.SCRIPT_PATH";
     private static final String EXTRA_SCRIPT_CONTENT = "com.googlecode.android_scripting.extra.SCRIPT_CONTENT";
     private static final String ACTION_EDIT_SCRIPT = "com.googlecode.android_scripting.action.EDIT_SCRIPT";
-    protected jp.sblo.pandora.jota.text.EditText mEditor;
+    public jp.sblo.pandora.jota.text.EditText mEditor;
     private LinearLayout mLlSearch;
     private jp.sblo.pandora.jota.text.EditText mEdtSearchWord;
     private ImageButton mBtnForward;
@@ -129,7 +129,7 @@ OnFileLoadListener {
     private View mTransparency;
     private Bitmap mWallpaperBmp;
     private LinearLayout mToolbar;
-    private LinearLayout mToolbarBase;
+    public LinearLayout mToolbarBase;
     private Handler mHandler = new Handler();
     protected boolean mRotationControl=false;
     private Button mMenuButton;
@@ -164,10 +164,6 @@ OnFileLoadListener {
 
 	public TextFrag() {
 		super();
-		type = Frag.TYPE.TEXT;
-		if (!(fragActivity instanceof TextEditorActivity)) {
-			title = "Text";
-		}
 	}
 	
 	public static TextFrag newInstance(Intent intent, String title, String path) {
@@ -187,7 +183,7 @@ OnFileLoadListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-		//fragActivity = this.getActivity();
+		
 		setHasOptionsMenu(true);
 		return inflater.inflate(R.layout.textviewer, container, false);
     }
@@ -196,9 +192,9 @@ OnFileLoadListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 		Log.d(TAG, "onViewCreated savedInstanceState " + savedInstanceState);
-        //fragActivity = this.getActivity();
+        
 		Bundle args = getArguments();
-		Log.d(TAG, "onViewCreated args=" + args);
+		Log.d(TAG, "onViewCreated args " + args);
 		if (args != null) {
 			intent = args.getParcelable("intent");
 			title = args.getString("title");
@@ -214,7 +210,7 @@ OnFileLoadListener {
 //        setContentView(R.layout.textviewer);
 
         mEditor = (jp.sblo.pandora.jota.text.EditText)view.findViewById(R.id.textedit);
-        Log.d(TAG, "onViewCreated mEditor " + currentPathTitle + ", " + mEditor);
+        Log.d(TAG, "onViewCreated " + currentPathTitle + ", fake " + fake + ", " + mEditor);
 
         mWallpaper = (ImageView)view.findViewById(R.id.wallpaper);
 
@@ -270,10 +266,10 @@ OnFileLoadListener {
 			view.findViewById(R.id.horizontalDivider).setVisibility(View.VISIBLE);
 		}
 		
-		if ( savedInstanceState == null ){
-        } else {
-            onRestoreInstanceState(savedInstanceState);
-        }
+//		if ( savedInstanceState == null ){
+//        } else {
+//            onRestoreInstanceState(savedInstanceState);
+//        }
 		
         if (mBootSettings.screenOrientation.equals(SettingsActivity.ORI_AUTO) || mRotationControl){
             // Do nothing
@@ -633,7 +629,7 @@ OnFileLoadListener {
 
 	@Override
 	public String toString() {
-		return "title=" + title + ", filename=" + mInstanceState.filename + ", " + super.toString();
+		return "title=" + title + ", filename=" + mInstanceState.filename + ", " + super.toString() + ", " + mEditor;
 	}
 
     @Override
@@ -736,10 +732,33 @@ OnFileLoadListener {
     }
 
     //@Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.d(TAG, "onRestoreInstanceState " + currentPathTitle + ", " + savedInstanceState);
-        //super.onRestoreInstanceState(savedInstanceState);
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        Log.d(TAG, "onRestoreInstanceState " + currentPathTitle + ", " + savedInstanceState);
+//        //super.onRestoreInstanceState(savedInstanceState);
+//
+//        mInstanceState.filename = savedInstanceState.getString("filename");
+//        mInstanceState.charset = savedInstanceState.getString("charset");
+//        // mInstanceState.text = savedInstanceState.getString("text" );
+//        mInstanceState.linebreak = savedInstanceState.getInt("linebreak");
+//        // mInstanceState.selstart = savedInstanceState.getInt("selstart" );
+//        // mInstanceState.selend = savedInstanceState.getInt("selend" );
+//        mInstanceState.changed = savedInstanceState.getBoolean("changed");
+//        mInstanceState.nameCandidate = savedInstanceState.getString("nameCandidate");
+//		
+//		title = savedInstanceState.getString("title");
+//		
+//        // mEditor.setText(mInstanceState.text);
+//        // mEditor.setSelection(mInstanceState.selstart, mInstanceState.selend);
+//        mEditor.setChanged(mInstanceState.changed);
+//		//Log.d(TAG, "onRestoreInstanceState " + mEditor.isChanged());
+//    }
+	
+	@Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        Log.d(TAG, "onViewStateRestored " + currentPathTitle + ", " + savedInstanceState);
+		super.onViewStateRestored(savedInstanceState);
 
+		if (savedInstanceState != null) {
         mInstanceState.filename = savedInstanceState.getString("filename");
         mInstanceState.charset = savedInstanceState.getString("charset");
         // mInstanceState.text = savedInstanceState.getString("text" );
@@ -748,20 +767,12 @@ OnFileLoadListener {
         // mInstanceState.selend = savedInstanceState.getInt("selend" );
         mInstanceState.changed = savedInstanceState.getBoolean("changed");
         mInstanceState.nameCandidate = savedInstanceState.getString("nameCandidate");
-		
+
 		title = savedInstanceState.getString("title");
-		
+
         // mEditor.setText(mInstanceState.text);
         // mEditor.setSelection(mInstanceState.selstart, mInstanceState.selend);
-        mEditor.setChanged(mInstanceState.changed);
-		//Log.d(TAG, "onRestoreInstanceState " + mEditor.isChanged());
-    }
-	
-	@Override
-    public void onViewStateRestored(Bundle savedInstanceState) {
-        Log.d(TAG, "onViewStateRestored " + currentPathTitle + ", " + savedInstanceState);
-		super.onViewStateRestored(savedInstanceState);
-        
+		}
         mEditor.setChanged(mInstanceState.changed);
 		//Log.d(TAG, "onViewStateRestored " + mEditor.isChanged());
     }
@@ -2776,6 +2787,7 @@ OnFileLoadListener {
                 case jp.sblo.pandora.jota.text.TextView.FUNCTION_KAGIKAKKO:
                 case jp.sblo.pandora.jota.text.TextView.FUNCTION_NIJUKAGI:
                     jp.sblo.pandora.jota.text.EditText target = getCurrentFocusEditText();
+					Log.d(TAG, "target " + target + ", mEditor " + mEditor + ", getCurrentFocus " + activity.getWindow().getCurrentFocus());
                     if ( target != null ){
                         target.doFunction(function);
                     }
@@ -2802,6 +2814,7 @@ OnFileLoadListener {
 
     private void initToolbar( ArrayList<Integer> toolbars , boolean bigButton)
     {
+		Log.d(TAG, "initToolbar " + mEditor + ", " + mToolbar);
         mToolbar.removeAllViews();
 		if (!(fragActivity instanceof TextEditorActivity)) {
 			mToolbarBase.setBackgroundColor(Constants.BASE_BACKGROUND);

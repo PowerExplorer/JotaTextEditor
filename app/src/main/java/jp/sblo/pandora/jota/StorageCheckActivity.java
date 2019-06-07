@@ -65,7 +65,6 @@ public class StorageCheckActivity extends AppCompatActivity {
             materialDialog.getActionButton(DialogAction.NEGATIVE).setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						materialDialog.dismiss();
 						finish();
 					}
 				});
@@ -110,8 +109,9 @@ public class StorageCheckActivity extends AppCompatActivity {
     }
 
 	@Override
-	protected void onStop() {
-		super.onStop();
+	protected void onDestroy() {
+		//Log.d("StorageCheckActivity", "onDestroy");
+		super.onDestroy();
 		if (materialDialog != null) {
 			materialDialog.dismiss();
 			materialDialog = null;

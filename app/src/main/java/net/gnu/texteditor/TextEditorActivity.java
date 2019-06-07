@@ -44,7 +44,7 @@ public class TextEditorActivity extends StorageCheckActivity {//
 
 		supportFragmentManager = getSupportFragmentManager();
 		if (savedInstanceState == null) {
-            slideFrag = SlidingTabsFragment.newInstance(SlidingTabsFragment.Side.LEFT);
+            slideFrag = SlidingTabsFragment.newInstance();
         } else {
 			slideFrag = (SlidingTabsFragment) supportFragmentManager.findFragmentByTag("slideFrag");
 		}
@@ -74,12 +74,12 @@ public class TextEditorActivity extends StorageCheckActivity {//
 	
 	@Override
 	public void onResume() {
-		Log.d(TAG, "onResume main=" + main);
+		//Log.d(TAG, "onResume1 main=" + main);
 		super.onResume();
 		if (main == null) {
 			main = (TextFrag) slideFrag.getCurrentFragment();
 		}
-		Log.d(TAG, "onResume main=" + main);
+		//Log.d(TAG, "onResume2 main=" + main);
 	}
 	
 	public void quit() {
@@ -107,23 +107,25 @@ public class TextEditorActivity extends StorageCheckActivity {//
 	
 	@Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+		Log.d(TAG, "onKeyDown " + keyCode + ", " + main);
 		return main.onKeyDown(keyCode, event);
 	}
 	
 	@Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+		Log.d(TAG, "onKeyUp " + keyCode + ", " + main);
 		return main.onKeyUp(keyCode, event);
 	}
 	
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-		//this.menu = menu;
-		Log.d(TAG, "onCreateOptionsMenu " + menu);
-        super.onCreateOptionsMenu(menu);
-		
-        //getMenuInflater().inflate(R.menu.mainmenu, menu);
-        return true;
-    }
+//	@Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//		//this.menu = menu;
+//		Log.d(TAG, "onCreateOptionsMenu " + menu);
+//        super.onCreateOptionsMenu(menu);
+//		
+//        //getMenuInflater().inflate(R.menu.mainmenu, menu);
+//        return true;
+//    }
 	
 //	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 //		return main.onMenuItemSelected(featureId, item);

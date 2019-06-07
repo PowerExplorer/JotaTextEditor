@@ -33,12 +33,13 @@ import net.gnu.texteditor.TextFrag;
 import android.view.MotionEvent;
 import android.app.Activity;
 import net.gnu.texteditor.*;
+import android.app.*;
+import android.content.*;
 
 public abstract class Frag extends Fragment implements Cloneable, Serializable {
 
 	private static final String TAG = "Frag";
 
-	public TYPE type = TYPE.EXPLORER;
 	public String currentPathTitle = "";
 	protected String title;
 
@@ -47,22 +48,15 @@ public abstract class Frag extends Fragment implements Cloneable, Serializable {
 	protected FragmentActivity fragActivity;
 	public SharedPreferences sharedPref;
 	
-	public int accentColor, primaryColor, primaryTwoColor;
-
 	public SlidingTabsFragment slidingTabsFragment;
 	
 	protected boolean fake = false;
 	private Toast toast = null;
     
-	public static final enum TYPE {
-		EMPTY, EXPLORER, ZIP, SELECTION, FTP, TEXT, WEB, PDF, CHM, PHOTO, MEDIA, APP, TRAFFIC_STATS, PROCESS//FBReader, 
-		};
-
-	public static Frag getFrag(final SlidingTabsFragment sliding, final TYPE t, final String path) {
+	public static Frag getFrag(final SlidingTabsFragment sliding, final String path) {
 		Frag frag = null;
-		if (t == TYPE.TEXT) {
-			frag = TextFrag.newInstance(null, "Text", path);
-		} 
+		frag = TextFrag.newInstance(null, "Text", path);
+		
 		if (frag != null) {
 			frag.currentPathTitle = path;
 			frag.slidingTabsFragment = sliding;
@@ -82,13 +76,13 @@ public abstract class Frag extends Fragment implements Cloneable, Serializable {
 	}
 
 	public Frag clone(final boolean fake) {
-		final Frag frag = Frag.getFrag(slidingTabsFragment, type, currentPathTitle);
+		final Frag frag = Frag.getFrag(slidingTabsFragment, currentPathTitle);
 		frag.clone(this, fake);
 		return frag;
 	}
 
 	public String getTitle() {
-		if (currentPathTitle != null && currentPathTitle.length() > 0 && type != TYPE.PHOTO) {
+		if (currentPathTitle != null && currentPathTitle.length() > 0) {
 			return currentPathTitle.substring(currentPathTitle.lastIndexOf("/") + 1);
 		} else {
 			return title;
@@ -200,5 +194,77 @@ public abstract class Frag extends Fragment implements Cloneable, Serializable {
 		//this.activity = null;
 	}
 
+	@Override
+	public String toString() {
+		return "fake " + fake;
+	}
+	// Print all activity info in current task back stack.
+	public static void printCurrentTaskActivityList(Context context, String tagName)
+	{
+		ActivityManager activityManager = (ActivityManager) context.getSystemService( context.ACTIVITY_SERVICE );
+
+		List<ActivityManager.AppTask> appTaskList = activityManager.getAppTasks();
+
+		if(appTaskList!=null)
+		{
+			int size = appTaskList.size();
+			for(int i=0;i<size;i++)
+			{
+				ActivityManager.AppTask appTask = appTaskList.get(i);
+				ActivityManager.RecentTaskInfo recentTaskInfo = appTask.getTaskInfo();
+
+				int taskId = recentTaskInfo.persistentId;
+
+				int activityNumber = recentTaskInfo.numActivities;
+
+				ComponentName origActivity = recentTaskInfo.origActivity;
+
+				ComponentName baseActivity = recentTaskInfo.baseActivity;
+
+				ComponentName topActivity = recentTaskInfo.topActivity;
+
+				Log.d(tagName, "Task Id : " + taskId);
+				Log.d(tagName, "Activity Number : " + activityNumber);
+
+				if(origActivity!=null) {
+					Log.d(tagName, "Original Activity : " + origActivity.toString());
+				}
+
+				if(baseActivity!=null) {
+					Log.d(tagName, "Base Activity : " + baseActivity.toString());
+				}
+
+				if(topActivity!=null) {
+					Log.d(tagName, "Top Activity : " + topActivity.toString());
+				}
+
+				Log.d(tagName, "************************************************");
+			}
+		}
+	}
+	
+	// Print fragment manager managed fragment in debug log.
+//	public static void printActivityFragmentList(FragmentManager fragmentManager)
+//	{
+//		// Get all Fragment list.
+//		List<Fragment> fragmentList = fragmentManager.getFragment();
+//
+//		if(fragmentList!=null)
+//		{
+//			int size = fragmentList.size();
+//			for(int i=0;i<size;i++)
+//			{
+//				Fragment fragment = fragmentList.get(i);
+//
+//				if(fragment!=null) {
+//					String fragmentTag = fragment.getTag();
+//					Log.d(TAG, fragmentTag);
+//				}
+//			}
+//
+//			Log.d(TAG, "***********************************");
+//		}
+//	}
+	
 	
 }

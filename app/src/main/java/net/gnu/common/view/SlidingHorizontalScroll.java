@@ -35,7 +35,6 @@ import net.gnu.explorer.*;
 import android.widget.*;
 import android.view.*;
 import net.gnu.texteditor.*;
-import net.gnu.explorer.Frag.TYPE;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to

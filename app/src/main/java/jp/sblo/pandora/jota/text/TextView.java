@@ -347,6 +347,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
                     AttributeSet attrs,
                     int defStyle) {
         super(context, attrs, defStyle);
+		Log.d(TAG, "TextView init");
         mText = "";
 
         mTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -988,6 +989,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
     // Jota Text Editor
     public void enableUndo(boolean enable){
+		//Log.d(TAG, "enableUndo " + enable);
         if ( enable == mUndoEnabled ){
             return;
         }
@@ -1005,7 +1007,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
     private TextWatcher mUndoWatcher = new TextWatcher() {
         TextChange lastChange;
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if ( lastChange !=null ){
+            //Log.d(TAG, "onTextChanged lastChange " + lastChange);
+			if ( lastChange !=null ){
                 if ( count < UndoBuffer.MAX_SIZE ){
                     lastChange.newtext = s.subSequence(start, start + count);
                     if ( start == lastChange.start &&
@@ -1024,7 +1027,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             }
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if ( mUndoRedo ){
+            //Log.d(TAG, "beforeTextChanged mUndoRedo " + mUndoRedo);
+			if ( mUndoRedo ){
                 mUndoRedo = false;
             }else{
                 if ( count < UndoBuffer.MAX_SIZE ){
@@ -2474,7 +2478,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
-			Log.d(TAG, "SavedState.writeToParcel " + out + ", flags " + flags);
+			//Log.d(TAG, "SavedState.writeToParcel " + out + ", flags " + flags);
             super.writeToParcel(out, flags);
             out.writeInt(selStart);
             out.writeInt(selEnd);
@@ -2517,7 +2521,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
         private SavedState(Parcel in) {
             super(in);
-            Log.d(TAG, "SavedState " + in);
+            //Log.d(TAG, "SavedState " + in);
             selStart = in.readInt();
             selEnd = in.readInt();
             frozenWithFocus = (in.readInt() != 0);
@@ -2535,8 +2539,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Log.d(TAG, "SavedState.onSaveInstanceState ");
-		Parcelable superState = super.onSaveInstanceState();
+        Parcelable superState = super.onSaveInstanceState();
 
         // Save state if we are forced to
         boolean save = mFreezesText;
@@ -2552,7 +2555,8 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
             }
         }
 
-        if (save) {
+        //Log.d(TAG, "SavedState.onSaveInstanceState save " + save + ", mText " + mText + ", undoBuffer " + mUndoBuffer);
+		if (save) {
             SavedState ss = new SavedState(superState);
             // XXX Should also save the current scroll position!
             ss.selStart = start;
@@ -2596,7 +2600,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        Log.d(TAG, "SavedState.onRestoreInstanceState ");
+        //Log.d(TAG, "SavedState.onRestoreInstanceState ");
 		if (!(state instanceof SavedState)) {
             super.onRestoreInstanceState(state);
             return;
@@ -7647,6 +7651,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
 // Jota Text Editor
     private boolean canUndo() {
+		Log.d(TAG, "canUndo " + mUndoBuffer.canUndo());
         return  mUndoBuffer.canUndo();
     }
 
@@ -8186,11 +8191,14 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
 
                 // UNDO
                 {
-                    TextChange textchange = mUndoBuffer.pop();
+					TextChange textchange = mUndoBuffer.pop();
+                    Log.d(TAG, "ID_UNDO " + textchange.start + ", " + textchange.oldtext + " clicked");
                     if ( textchange != null ){
                         Editable text = (Editable)getText();
                         mUndoRedo = true;
+						Log.d(TAG, "text before " + text);
                         text.replace( textchange.start , textchange.start + textchange.newtext.length() , textchange.oldtext );
+                        Log.d(TAG, "text after " + text);
                         Selection.setSelection( text, textchange.start + textchange.oldtext.length());
                         mRedoBuffer.push(textchange);
                     }
@@ -8203,6 +8211,7 @@ public class TextView extends View implements ViewTreeObserver.OnPreDrawListener
                 // REDO
                 {
                     TextChange textchange = mRedoBuffer.pop();
+                    Log.d(TAG, "ID_REDO " + textchange + " clicked");
                     if ( textchange != null ){
                         Editable text = (Editable)getText();
                         mUndoRedo = true;
